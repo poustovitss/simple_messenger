@@ -1,6 +1,6 @@
 Messenger app
 ================
-[Try out demo on Heroku]()
+[Try out demo on Heroku](https://poustovit-messenger.herokuapp.com/)
 
 Simple application where users can send messages to each other.
 
@@ -45,4 +45,4 @@ You can run tests with:
 rspec
 ```
 ### Deployment
-Deployed version: [https://poustovitss-messenger.herokuapp.com/](https://poustovitss-messenger.herokuapp.com/)
+Deployed version: [https://poustovit-messenger.herokuapp.com/](https://poustovit-messenger.herokuapp.com/)
