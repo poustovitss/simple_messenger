@@ -1,0 +1,10 @@
+li
+  a href="/"
+    i.fa.fa-fw.fa-dashboard>
+    | Dashboard
+
+- if current_user.admin?
+  li
+    a href="#{users_path}"
+      i.fa.fa-fw.fa-users>
+      | Users

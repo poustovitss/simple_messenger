@@ -1,0 +1,39 @@
+@import "bootstrap";
+@import "bootstrap-sprockets";
+@import "style";
+
+@import "bootstrap";
+@import "style";
+
+.authform {
+  padding-top: 30px;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+.authform form {
+  padding-bottom: 20px;
+  padding-top: 15px;
+  padding-left: 30px;
+  padding-right: 30px;
+  color: #9E9E9E;
+  background-color: #F5F5F5;
+  border-radius: 0.5rem;
+}
+
+.authform .checkbox {
+  padding-top: 0;
+}
+
+.authform .right {
+  float: right !important;
+}
+
+#error_explanation h2 {
+  font-size: 16px;
+}
+
+.col-centered {
+  float: none;
+  margin: 0 auto;
+}

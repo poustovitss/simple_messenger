@@ -1,0 +1,16 @@
+nav.navbar.navbar-inverse.navbar-fixed-top role="navigation"
+  .navbar-header
+    a.navbar-brand href='/' Messenger
+  ul.nav.navbar-right.top-nav
+    li.dropdown
+      a.dropdown-toggle data-toggle="dropdown" href="#"
+        i.fa.fa-user>
+        = current_user.email
+        b.caret<
+      ul.dropdown-menu
+        li
+          = link_to 'Log out', destroy_user_session_path, method: 'delete'
+
+  .collapse.navbar-collapse.navbar-ex1-collapse
+    ul.nav.navbar-nav.side-nav
+      = render 'layouts/navigation_links'
