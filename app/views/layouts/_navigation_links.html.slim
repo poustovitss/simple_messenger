@@ -1,10 +1,14 @@
 li
   a href="/"
-    i.fa.fa-fw.fa-dashboard>
-    | Dashboard
+    i.fa.fa-fw.fa-dashboard
+    |  Dashboard
+li
+  a href="#{}"
+    i.fa.fa-fw.fa-comments-o
+    |  Conversations
 
 - if current_user.admin?
   li
     a href="#{users_path}"
-      i.fa.fa-fw.fa-users>
-      | Users
+      i.fa.fa-fw.fa-users
+      |  Users management
