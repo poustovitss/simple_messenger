@@ -1,0 +1,24 @@
+= render 'general/page_heading', title: 'Users management', page: 'Users'
+
+.row
+  .col-lg-12
+    h2 All Users
+    .table-responsive
+      table.table.table-bordered.table-hover
+        thead
+          tr
+            th id
+            th email
+            th first name
+            th last name
+            th role
+            th sign in count
+            th current sign in at
+            th last sign in at
+            th change role
+            th colspan='3' class='text-center' Manage
+        tbody
+          = render @users
+      .pull-right
+        = will_paginate @users
+      .pull-left= link_to 'New user', new_user_path, class: 'btn btn-primary'

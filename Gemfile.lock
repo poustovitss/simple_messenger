@@ -215,6 +215,8 @@ GEM
     rb-fsevent (0.9.8)
     rb-inotify (0.9.8)
       ffi (>= 0.5.0)
+    record_tag_helper (1.0.0)
+      actionview (~> 5.x)
     redis (3.3.3)
     reek (4.6.1)
       codeclimate-engine-rb (~> 0.4.0)
@@ -362,6 +364,7 @@ DEPENDENCIES
   rails-controller-testing
   rails_best_practices
   ransack
+  record_tag_helper
   redis (~> 3.0)
   rspec-rails
   rubocop

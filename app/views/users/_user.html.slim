@@ -1,0 +1,13 @@
+= content_tag_for :tr, user, class: "#{'disabled-user' unless user.active}" do
+  td= user.id
+  td= user.email
+  td= user.first_name
+  td= user.last_name
+  td= user.role.upcase
+  td= user.sign_in_count
+  td= time_format(user.current_sign_in_at)
+  td= time_format(user.last_sign_in_at)
+  td.text-center= toggle_user_state(user)
+  td.text-center= link_to 'edit', edit_user_path(user), class: 'btn btn-xs btn-warning'
+  td.text-center= link_to 'role', role_user_path(user), class: 'btn btn-xs btn-info'
+  td.text-center= delete_user_button(user)

@@ -1,0 +1,41 @@
+= form_for(@user, url: create_user_path) do |f|
+  .row
+    .col-lg-4.col-lg-offset-4
+      - if @user.errors.any?
+        #error_explanation
+          h2
+            = pluralize(@user.errors.count, "error")
+            | prohibited this user from being saved:
+          ul
+            - @user.errors.full_messages.each do |msg|
+              li= msg
+
+      .panel.panel-default
+        .panel-heading
+          h3.panel-title
+            i.fa.fa-plus.fa-fw
+            | User
+        .panel-body
+          form role='form'
+            .form-group
+              label First name
+              = f.text_field :first_name, class: 'form-control'
+
+              label Last name
+              = f.text_field :last_name, class: 'form-control'
+
+              label Email
+              = f.email_field :email, class: 'form-control'
+
+              label Role
+              = f.select :role, User.roles.keys.to_a, {}, { class: 'form-control' }
+
+              label Password
+              = f.password_field :password, class: 'form-control'
+
+              label Password confirmation
+              = f.password_field :password_confirmation, class: 'form-control'
+
+          .text-right
+            = f.submit 'Save', class: 'btn btn-primary'
+      = link_to 'Back', users_path, class: 'btn btn-default'

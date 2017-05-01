@@ -5,7 +5,6 @@ FactoryGirl.define do
     email Faker::Internet.email
     password 'changeme'
     password_confirmation 'changeme'
-    role :user
 
     trait :admin do
       role :admin
