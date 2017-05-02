@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   scope :created, -> { order('created_at asc') }
+  scope :active, -> { where(active: true) }
 
   enum role: %i[user admin]
 
@@ -24,5 +25,9 @@ class User < ApplicationRecord
 
   def current_user?
     self == Current.user
+  end
+
+  def conversations
+    Conversation.where('sender_id = ? OR recipient_id = ?', id, id)
   end
 end

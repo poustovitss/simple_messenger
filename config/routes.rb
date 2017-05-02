@@ -13,4 +13,8 @@ Rails.application.routes.draw do
   end
 
   post 'create_user', to: 'users#create', as: :create_user
+
+  resources :conversations do
+    resources :messages
+  end
 end
