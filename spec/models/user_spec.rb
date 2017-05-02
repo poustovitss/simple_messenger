@@ -1,6 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
+  describe 'scopes' do
+    it 'order by created_at field in asc' do
+      user1 = FactoryGirl.create(:user, created_at: Time.now-10)
+      user2 = FactoryGirl.create(:user, created_at: Time.now-5)
+
+      expect(User.created).to match_array([user1, user2])
+    end
+
+    it 'shows only active users' do
+      user1 = FactoryGirl.create(:user)
+      FactoryGirl.create(:user, active: false)
+
+      expect(User.active).to match_array([user1])
+    end
+  end
+
   describe 'user roles' do
     let(:role) { %i[user admin] }
 
@@ -41,6 +57,15 @@ RSpec.describe User, type: :model do
       user = FactoryGirl.create(:user)
 
       expect(user.current_user?).to be false
+    end
+
+    it 'shows related conversations' do
+      user1 = FactoryGirl.create(:user)
+      user2 = FactoryGirl.create(:user)
+      conversation = FactoryGirl.create(:conversation, sender_id: user1.id, recipient_id: user2.id)
+      FactoryGirl.create(:conversation, sender_id: user2.id, recipient_id: 100)
+
+      expect(user1.conversations).to match_array([conversation])
     end
   end
 end
