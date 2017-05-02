@@ -1,0 +1,9 @@
+#conversation-search-form
+  = search_form_for @search, url: conversations_path, class: 'form-inline' do |f|
+    span.field
+      = f.search_field :first_name_or_last_name_cont,
+              placeholder: 'find user by name',
+              class: 'form-control input-sm'
+    span.actions
+      = f.submit 'Search', class: 'btn btn-md btn-info search-button'
+      = link_to 'Clear', conversations_path, class: 'btn btn-md btn-danger clear-button'

@@ -2,7 +2,9 @@ class ConversationsController < ApplicationController
   before_action :set_recipient, :set_sender
 
   def index
-    @users = User.active
+    params[:q] ||= {}
+    @search = User.active.ransack(params[:q])
+    @users = @search.result(distinct: true).paginate(per_page: 15, page: params[:page])
     @conversations = current_user.conversations
     @conversation = Conversation.new
   end

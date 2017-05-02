@@ -20,6 +20,7 @@
       li
         i.fa.fa-users
         |  Users
+    = render 'conversations/search'
     ul.list-group
       = form_for @conversation, controller: 'conversations', action: 'create' do |f|
         - @users.each do |user|
@@ -31,3 +32,5 @@
                 = hidden_field_tag :recipient_id, user.id
                 = f.submit 'Send message',
                         class: 'btn btn-xs btn-primary'
+      .text-center
+        = will_paginate @users, renderer: BootstrapPagination::Rails, class: 'pagination-sm'
