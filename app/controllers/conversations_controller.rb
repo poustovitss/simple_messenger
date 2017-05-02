@@ -4,8 +4,8 @@ class ConversationsController < ApplicationController
   def index
     params[:q] ||= {}
     @search = User.active.ransack(params[:q])
-    @users = @search.result(distinct: true).paginate(per_page: 15, page: params[:page])
-    @conversations = current_user.conversations
+    @users = @search.result(distinct: true).paginate(page: params[:users_page], per_page: 15)
+    @conversations = current_user.conversations.paginate(page: params[:conversation_page], per_page: 10)
     @conversation = Conversation.new
   end
 

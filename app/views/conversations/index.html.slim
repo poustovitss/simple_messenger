@@ -4,17 +4,13 @@
       li
         i.fa.fa-comments-o
         |  Mailbox
-    .ui.segment
-      .ui.list
-        .item
-          - @conversations.each do |conversation|
-            - if conversation.sender_id == current_user.id || conversation.recipient_id == current_user.id
-              - if conversation.sender_id == current_user.id
-                - recipient = User.find(conversation.recipient_id)
-              - else
-                - recipient = User.find(conversation.sender_id)
-              = link_to recipient.first_name, conversation_messages_path(conversation)
-
+    .list-group#conversations
+      = render @conversations
+    .pull-right
+      = will_paginate @conversations,
+              param_name: 'conversation_page',
+              renderer: BootstrapPagination::Rails,
+              class: 'pagination-sm'
   .col-lg-4
     ol.breadcrumb
       li
@@ -22,15 +18,9 @@
         |  Users
     = render 'conversations/search'
     ul.list-group
-      = form_for @conversation, controller: 'conversations', action: 'create' do |f|
-        - @users.each do |user|
-          - if user.id != current_user.id
-            li.list-group-item
-              = user.name
-              .pull-right
-                = hidden_field_tag :sender_id, current_user.id
-                = hidden_field_tag :recipient_id, user.id
-                = f.submit 'Send message',
-                        class: 'btn btn-xs btn-primary'
-      .text-center
-        = will_paginate @users, renderer: BootstrapPagination::Rails, class: 'pagination-sm'
+      = render 'conversations/user'
+      .pull-right
+        = will_paginate @users,
+                param_name: 'users_page',
+                renderer: BootstrapPagination::Rails,
+                class: 'pagination-sm'

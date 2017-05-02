@@ -13,4 +13,12 @@ class Conversation < ApplicationRecord
           recipient_id,
           sender_id)
   end)
+
+  def owner(current_user)
+    if current_user.id == sender_id
+      User.find(recipient_id)
+    elsif current_user.id == recipient_id
+      User.find(sender_id)
+    end
+  end
 end
