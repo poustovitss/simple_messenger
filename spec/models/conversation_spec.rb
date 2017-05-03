@@ -24,4 +24,21 @@ RSpec.describe Conversation, type: :model do
   describe 'validations' do
     it { should validate_uniqueness_of(:sender_id).scoped_to(:recipient_id) }
   end
+
+  describe 'instance methods' do
+    before do
+      @user = FactoryGirl.create(:user)
+      @user1 = FactoryGirl.create(:user)
+      @conversation = FactoryGirl.create(:conversation, sender_id: @user.id,
+                                                       recipient_id: @user1.id)
+    end
+
+    it 'finds conversation owner' do
+      expect(@conversation.owner(@user)).to eq(@user1)
+    end
+
+    it 'checks for conversation owner' do
+      expect(@conversation.owner?(@user)).to be true
+    end
+  end
 end
