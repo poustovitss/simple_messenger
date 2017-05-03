@@ -13,4 +13,8 @@ class Message < ApplicationRecord
     return true if current_user.id == user_id
     false
   end
+
+  def owner_name
+    User.find(user_id).name
+  end
 end

@@ -26,5 +26,12 @@ RSpec.describe Message, type: :model do
 
       expect(message.owner?(user)).to be true
     end
+
+    it 'shows user name' do
+      user = FactoryGirl.create(:user, first_name: 'First', last_name: 'Last')
+      message = FactoryGirl.build(:message, user_id: user.id)
+
+      expect(message.owner_name).to eq('First Last')
+    end
   end
 end

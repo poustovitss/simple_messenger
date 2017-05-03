@@ -1,25 +1,30 @@
-.ui.segment
+.conversation-page
   - @messages.each do |message|
-    - if message.body
-      - user = User.find(message.user_id)
-      .item
-        .content
-          .header
-            strong= user.first_name
-            = message.message_time
-          .list
-            .item
-              i.right.triangle.icon
-              = message.body
-            .item
-              - if message.owner?(current_user)
-                = link_to 'delete', conversation_message_path(@conversation, message),
-                        method: :delete,
-                        data: { confirm: 'Are you sure?' },
-                        class: 'btn btn-xs btn-danger'
-= form_for [@conversation, @message], html: { class: "ui reply form" } do |f|
-  .field
-    = f.text_area :body, class: "form-control"
-  = f.text_field :user_id, value: current_user.id, type: "hidden"
-  div
-    = f.submit "Add Reply", class: "ui blue labeled submit icon button"
+    ol.chat
+      - if message.body
+        - if message.owner?(current_user)
+          li.self
+            .avatar
+              img draggable="false" src="http://i.imgur.com/HYcn9xO.png" /
+            .msg
+              p= message.body
+              .pull-right.delete= link_to conversation_message_path(@conversation, message),
+                                    method: :delete,
+                                    data: { confirm: 'Are you sure?' }
+                i.fa.fa-trash
+              time #{message.message_time}
+        - else
+          li.other
+            .avatar
+              img draggable='false' src='http://i.imgur.com/DY6gND0.png' /
+            .msg
+              p= message.body
+              time #{message.message_time} by #{message.owner_name}
+
+  .send-message
+    = form_for [@conversation, @message] do |f|
+      hr
+      = f.text_area :body, rows: 2, class: 'form-control textarea'
+      = f.text_field :user_id, value: current_user.id, type: 'hidden'
+      .pull-right
+        = f.submit 'Send', class: 'btn btn-primary'
