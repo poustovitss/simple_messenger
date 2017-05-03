@@ -11,6 +11,12 @@
             .item
               i.right.triangle.icon
               = message.body
+            .item
+              - if message.owner?(current_user)
+                = link_to 'delete', conversation_message_path(@conversation, message),
+                        method: :delete,
+                        data: { confirm: 'Are you sure?' },
+                        class: 'btn btn-xs btn-danger'
 = form_for [@conversation, @message], html: { class: "ui reply form" } do |f|
   .field
     = f.text_area :body, class: "form-control"

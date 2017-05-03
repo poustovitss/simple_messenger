@@ -15,6 +15,6 @@ Rails.application.routes.draw do
   post 'create_user', to: 'users#create', as: :create_user
 
   resources :conversations, only: %i[index create show destroy] do
-    resources :messages
+    resources :messages, only: %i[create destroy]
   end
 end

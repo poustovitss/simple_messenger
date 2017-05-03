@@ -8,4 +8,9 @@ class Message < ApplicationRecord
   def message_time
     created_at.strftime('%H:%M:%S %B %d, %Y')
   end
+
+  def owner?(current_user)
+    return true if current_user.id == user_id
+    false
+  end
 end
