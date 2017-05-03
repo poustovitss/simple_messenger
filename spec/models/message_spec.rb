@@ -19,5 +19,12 @@ RSpec.describe Message, type: :model do
 
       expect(message.message_time).to eq('15:48:59 March 23, 2013')
     end
+
+    it 'checks for message owner' do
+      user = FactoryGirl.create(:user)
+      message = FactoryGirl.build(:message, user_id: user.id)
+
+      expect(message.owner?(user)).to be true
+    end
   end
 end
