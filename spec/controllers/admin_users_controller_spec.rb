@@ -143,7 +143,7 @@ describe UsersController do
 
         it 'does not deletes himself from database' do
           delete :destroy, params: { id: admin }
-          expect(User.exists?(admin)).to be_truthy
+          expect(User.exists?(admin.id)).to be_truthy
         end
       end
     end
