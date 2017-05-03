@@ -4,7 +4,7 @@
       li
         i.fa.fa-comments-o
         |  Mailbox
-    .list-group#conversations
+    #conversations
       = render @conversations
     .pull-right
       = will_paginate @conversations,
@@ -17,7 +17,7 @@
         i.fa.fa-users
         |  Users
     = render 'conversations/search'
-    ul.list-group
+    .list-group
       = render 'conversations/user'
       .pull-right
         = will_paginate @users,

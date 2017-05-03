@@ -1,4 +1,7 @@
 class User < ApplicationRecord
+  has_many :conversations, dependent: :destroy
+  has_many :messages, through: :conversations
+
   scope :created, -> { order('created_at asc') }
   scope :active, -> { where(active: true) }
 

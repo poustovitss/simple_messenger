@@ -11,3 +11,18 @@
     padding: 4px 10px;
   }
 }
+
+#conversations {
+  .panel {
+    margin-bottom: 10px;
+  }
+  h4.panel-title {
+    padding-top: 2px;
+  }
+  a.conversation-body {
+    color: black;
+    :hover {
+      background-color: #f9f9f9;
+    }
+  }
+}
