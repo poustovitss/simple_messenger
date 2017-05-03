@@ -4,7 +4,12 @@ class MessagesController < ApplicationController
 
   def create
     @message = @conversation.messages.new(message_params)
-    redirect_to conversation_path(@conversation) if @message.save
+    if @message.save
+      redirect_to conversation_path(@conversation)
+    else
+      redirect_to conversation_path(@conversation),
+                  alert: 'Message must be from 1 to 1000 symbols'
+    end
   end
 
   def destroy
