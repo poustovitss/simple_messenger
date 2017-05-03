@@ -16,11 +16,9 @@
       li
         i.fa.fa-users
         |  Users
-    = render 'conversations/search'
-    .list-group
-      = render 'conversations/user'
-      .pull-right
-        = will_paginate @users,
-                param_name: 'users_page',
-                renderer: BootstrapPagination::Rails,
-                class: 'pagination-sm'
+    = render 'conversations/user'
+    .pull-right
+      = will_paginate @users,
+              param_name: 'users_page',
+              renderer: BootstrapPagination::Rails,
+              class: 'pagination-sm'
