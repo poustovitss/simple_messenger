@@ -2,7 +2,7 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-  root 'dashboard#index'
+  root 'conversations#index'
 
   resources :users, except: :create do
     member do

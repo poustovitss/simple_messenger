@@ -1,11 +1,7 @@
 li
-  a href="/"
-    i.fa.fa-fw.fa-dashboard
-    |  Dashboard
-li
   a href="#{conversations_path}"
     i.fa.fa-fw.fa-comments-o
-    |  Conversations
+    |  Mailbox
 
 - if current_user.admin?
   li
