@@ -1,6 +1,5 @@
 class MessagesController < ApplicationController
   before_action :set_conversation
-  before_action :set_message, only: :destroy
 
   def create
     @message = @conversation.messages.new(message_params)
@@ -12,15 +11,6 @@ class MessagesController < ApplicationController
     end
   end
 
-  def destroy
-    if @message.owner?(current_user)
-      @message.delete
-    else
-      flash[:alert] = 'Its not your message'
-    end
-    redirect_to conversation_path(@conversation)
-  end
-
   private
 
   def render_message(message, conversation)
@@ -30,10 +20,6 @@ class MessagesController < ApplicationController
 
   def set_conversation
     @conversation = Conversation.find(params[:conversation_id])
-  end
-
-  def set_message
-    @message = Message.find(params[:id])
   end
 
   def message_params

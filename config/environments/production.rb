@@ -36,8 +36,10 @@ Rails.application.configure do
 
   # Mount Action Cable outside main process or domain
   # config.action_cable.mount_path = nil
-  # config.action_cable.url = 'wss://example.com/cable'
-  config.action_cable.allowed_request_origins = [ 'https://poustovit-messenger.herokuapp.com', /http:\/\/poustovit-messenger.herokuapp.*/ ]
+  config.action_cable.url = 'wss://poustovit-messenger.herokuapp.com/cable'
+  config.action_cable.allowed_request_origins = [
+    'https://poustovit-messenger.herokuapp.com'
+  ]
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # config.force_ssl = true

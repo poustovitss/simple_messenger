@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   post 'create_user', to: 'users#create', as: :create_user
 
   resources :conversations, only: %i[index create show destroy] do
-    resources :messages, only: %i[create destroy]
+    resources :messages, only: :create
   end
 
   mount ActionCable.server, at: '/cable'
