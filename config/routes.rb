@@ -17,4 +17,6 @@ Rails.application.routes.draw do
   resources :conversations, only: %i[index create show destroy] do
     resources :messages, only: %i[create destroy]
   end
+
+  mount ActionCable.server, at: '/cable'
 end
