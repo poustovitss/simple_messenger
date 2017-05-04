@@ -1,21 +1,14 @@
 ol.chat
   - if message.body
-    - if message.owner?(current_user)
-      li.self
-        .avatar
-          img draggable="false" src="http://i.imgur.com/HYcn9xO.png" /
-        .msg
-          p= message.body
+    li.other
+      .avatar
+        = gravatar_for message.user
+      .msg
+        p= message.body
+        - if message.owner?(current_user)
           .pull-right.delete
             = link_to(conversation_message_path(@conversation, message),
-                  method: :delete,
-                  data: { confirm: 'Are you sure?' }) do
+                    method: :delete,
+                    data: { confirm: 'Are you sure?' }) do
               i.fa.fa-trash
-          time #{message.message_time}
-    - else
-      li.other
-        .avatar
-          img draggable='false' src='http://i.imgur.com/DY6gND0.png' /
-        .msg
-          p= message.body
-          time #{message.message_time} by #{message.owner_name}
+        time #{message.user.name} at #{message.message_time}
