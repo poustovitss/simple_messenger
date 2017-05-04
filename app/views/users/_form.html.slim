@@ -19,9 +19,6 @@
               label Email
               = f.email_field :email, class: 'form-control'
 
-              label Role
-              = f.select :role, User.roles.keys.to_a, {}, { class: 'form-control' }
-
               label Password
               = f.password_field :password, class: 'form-control'
 

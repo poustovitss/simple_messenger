@@ -1,9 +1,10 @@
 class UsersController < ApplicationController
   include UsersHelper
 
-  before_action :admin_only
-  before_action :set_user, only: [:edit, :update, :destroy, :role, :toggle_user_state]
-  around_action :set_current_user, only: [:index, :destroy]
+  before_action :admin_only, except: %i[edit update]
+  before_action :set_user, only: %i[edit update destroy role toggle_user_state]
+  before_action :check_current_user, only: %i[edit update]
+  around_action :set_current_user, only: %i[index destroy]
 
   def index
     @users = User.created.paginate(per_page: 20, page: params[:page])
@@ -32,6 +33,7 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
+        #return check_current_user
         format.html { redirect_to users_path, notice: 'User was successfully updated.' }
         format.json { render json: @user.to_json }
       else
@@ -94,5 +96,11 @@ class UsersController < ApplicationController
 
   def user_role_params
     params.permit(:id, :role)
+  end
+
+  def check_current_user
+    if current_user.id != @user.id && current_user.role != 'admin'
+      redirect_to root_path, alert: 'Access denied'
+    end
   end
 end
