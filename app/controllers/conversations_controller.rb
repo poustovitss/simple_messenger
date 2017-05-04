@@ -13,9 +13,10 @@ class ConversationsController < ApplicationController
 
   def create
     @conversation = Conversation.new(conversation_params)
-    if Conversation.between(params[:sender_id], params[:recipient_id]).exists?
-      @conversation = Conversation.between(params[:sender_id],
-                                           params[:recipient_id]).first
+    if Conversation.between(conversation_params[:sender_id],
+                            conversation_params[:recipient_id]).exists?
+      @conversation = Conversation.between(conversation_params[:sender_id],
+                                           conversation_params[:recipient_id]).first
       redirect_to conversation_path(@conversation)
     else
       @conversation.save
@@ -25,7 +26,7 @@ class ConversationsController < ApplicationController
 
   def show
     if @conversation.owner?(current_user)
-      @messages = @conversation.messages
+      @messages = @conversation.messages.for_display
       @message = @conversation.messages.new
     else
       redirect_to conversations_path, alert: 'Access denied'

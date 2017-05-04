@@ -1,0 +1,10 @@
+- if model.errors.any?
+  #error_explanation
+    .alert.alert-danger.alert-dismissable
+      button.close aria-hidden="true" data-dismiss="alert" type="button"  ×
+      p
+        strong
+          | This form contains #{pluralize(model.errors.count, 'error')}.
+      ul
+        - model.errors.full_messages.each do |msg|
+          li= msg

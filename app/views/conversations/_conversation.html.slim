@@ -1,5 +1,5 @@
 - if current_user.conversations.any?
-  .panel.panel-default
+  .panel.panel-default data-conversation-id="#{conversation.id}"
     .panel-heading.clearfix
       h4.panel-title.pull-left= conversation.owner(current_user).name
       .pull-right

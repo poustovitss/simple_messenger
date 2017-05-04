@@ -1,0 +1,14 @@
+ol.chat
+  - if message.body
+    li.other
+      .avatar
+        = gravatar_for message.user
+      .msg
+        p= message.body
+        - if message.owner?(current_user)
+          .pull-right.delete
+            = link_to(conversation_message_path(@conversation, message),
+                    method: :delete,
+                    data: { confirm: 'Are you sure?' }) do
+              i.fa.fa-trash
+        time #{message.user.name} at #{message.message_time}
