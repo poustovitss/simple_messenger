@@ -164,7 +164,6 @@
   bottom: 0px;
   right: 0px;
   width: 100%;
-  height: 150px;
   z-index: 99;
   background: #ffffff;
   border: none;
@@ -177,5 +176,8 @@
   .textarea {
     resize: vertical;
     margin-bottom: 10px;
+  }
+  .btn-send-message {
+    display: none;
   }
 }

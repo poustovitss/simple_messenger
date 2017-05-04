@@ -5,7 +5,8 @@ class MessagesController < ApplicationController
   def create
     @message = @conversation.messages.new(message_params)
     if @message.save
-      redirect_to conversation_path(@conversation)
+      ActionCable.server.broadcast "messages_channel_#{@conversation.id}",
+                                   message: render_message(@message, @conversation)
     else
       redirect_to conversation_path(@conversation),
                   alert: 'Message must be from 1 to 1000 symbols'
@@ -22,6 +23,11 @@ class MessagesController < ApplicationController
   end
 
   private
+
+  def render_message(message, conversation)
+    render(partial: 'messages/message', locals: { message: message,
+                                                  conversation: conversation})
+  end
 
   def set_conversation
     @conversation = Conversation.find(params[:conversation_id])

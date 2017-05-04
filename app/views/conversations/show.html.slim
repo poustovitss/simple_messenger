@@ -1,30 +1,10 @@
-.conversation-page
-  - @messages.each do |message|
-    ol.chat
-      - if message.body
-        - if message.owner?(current_user)
-          li.self
-            .avatar
-              img draggable="false" src="http://i.imgur.com/HYcn9xO.png" /
-            .msg
-              p= message.body
-              .pull-right.delete= link_to conversation_message_path(@conversation, message),
-                                    method: :delete,
-                                    data: { confirm: 'Are you sure?' }
-                i.fa.fa-trash
-              time #{message.message_time}
-        - else
-          li.other
-            .avatar
-              img draggable='false' src='http://i.imgur.com/DY6gND0.png' /
-            .msg
-              p= message.body
-              time #{message.message_time} by #{message.owner_name}
+.conversation-page#messages data-conversation-id="#{@conversation.id}"
+  = render @messages, locals: { conversation: @conversation }
 
   .send-message
-    = form_for [@conversation, @message] do |f|
+    = form_for([@conversation, @message], remote: true) do |f|
       hr
       = f.text_area :body, rows: 2, class: 'form-control textarea'
       = f.text_field :user_id, value: current_user.id, type: 'hidden'
-      .pull-right
+      .pull-right.btn-send-message
         = f.submit 'Send', class: 'btn btn-primary'
