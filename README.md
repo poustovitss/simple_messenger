@@ -2,6 +2,8 @@ Messenger app
 ================
 [Try out demo on Heroku](https://poustovit-messenger.herokuapp.com/)
 
+###### Credentials for admin user on site: admin@admin.com, 'changemeadmin'
+
 Simple application where users can send messages to each other.
 
 ## Getting Started
