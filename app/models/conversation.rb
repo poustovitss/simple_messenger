@@ -26,4 +26,8 @@ class Conversation < ApplicationRecord
     return true if current_user.id == sender_id || current_user.id == recipient_id
     false
   end
+
+  def unread_messages_for_user(user)
+    Message.where(to: user, conversation_id: id, read: false)
+  end
 end

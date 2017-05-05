@@ -15,8 +15,11 @@ Rails.application.routes.draw do
   post 'create_user', to: 'users#create', as: :create_user
 
   resources :conversations, only: %i[index create show destroy] do
-    resources :messages, only: :create
+    resources :messages, only: :create do
+    end
   end
+
+  get 'unread', to: 'messages#unread'
 
   mount ActionCable.server, at: '/cable'
 end

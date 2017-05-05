@@ -26,8 +26,8 @@ class ConversationsController < ApplicationController
 
   def show
     if @conversation.owner?(current_user)
-      Message.to(current_user).each { |m| m.update(read: true) }
       @messages = @conversation.messages.for_display
+      @conversation.unread_messages_for_user(current_user).update_all(read: true)
       @message = @conversation.messages.new
     else
       redirect_to conversations_path, alert: 'Access denied'

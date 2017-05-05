@@ -1,5 +1,5 @@
 class MessagesController < ApplicationController
-  before_action :set_conversation
+  before_action :set_conversation, only: :create
 
   def create
     @message = @conversation.messages.new(message_params)
@@ -10,6 +10,10 @@ class MessagesController < ApplicationController
     else
       redirect_to conversation_path(@conversation), alert: 'Error'
     end
+  end
+
+  def unread
+    @messages = current_user.new_messages
   end
 
   private
