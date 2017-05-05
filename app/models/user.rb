@@ -34,4 +34,8 @@ class User < ApplicationRecord
   def conversations
     Conversation.where('sender_id = ? OR recipient_id = ?', id, id)
   end
+
+  def new_messages
+    Message.to(id).not_read
+  end
 end

@@ -4,6 +4,7 @@ class MessagesController < ApplicationController
   def create
     @message = @conversation.messages.new(message_params)
     if @message.save
+      @message.update(to: set_recipient)
       ActionCable.server.broadcast "messages_channel_#{@conversation.id}",
                                    message: render_message(@message, @conversation)
     else
@@ -24,5 +25,13 @@ class MessagesController < ApplicationController
 
   def message_params
     params.require(:message).permit(:body, :user_id)
+  end
+
+  def set_recipient
+    if current_user.id == @conversation.sender_id
+      @conversation.recipient_id
+    else
+      @conversation.sender_id
+    end
   end
 end

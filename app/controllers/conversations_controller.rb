@@ -26,6 +26,7 @@ class ConversationsController < ApplicationController
 
   def show
     if @conversation.owner?(current_user)
+      Message.to(current_user).each { |m| m.update(read: true) }
       @messages = @conversation.messages.for_display
       @message = @conversation.messages.new
     else

@@ -2,6 +2,8 @@ li
   a href="#{conversations_path}"
     i.fa.fa-fw.fa-comments-o
     |  Mailbox
+    span<> class="badge alert-success"
+      = current_user.new_messages.count.nonzero?
 
 - if current_user.admin?
   li
