@@ -34,7 +34,7 @@ Set `username` and `password` values right for your db settings in database.yml 
 
 Setup db:
 ```
-rails db:create && rake db:migrate && rake db:seed
+rails db:create db:migrate db:seed
 ```
 
 Run server:
