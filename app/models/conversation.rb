@@ -6,8 +6,8 @@ class Conversation < ApplicationRecord
   validates :sender_id, uniqueness: { scope: :recipient_id }
 
   scope :between, (lambda do |sender_id, recipient_id|
-    where('(conversations.sender_id = ? AND conversations.recipient_id =?)
-      OR (conversations.sender_id = ? AND conversations.recipient_id =?)',
+    where('(conversations.sender_id = ? AND conversations.recipient_id = ?)
+        OR (conversations.sender_id = ? AND conversations.recipient_id = ?)',
           sender_id,
           recipient_id,
           recipient_id,
@@ -23,7 +23,7 @@ class Conversation < ApplicationRecord
   end
 
   def owner?(current_user)
-    return true if current_user.id == sender_id || current_user.id == recipient_id
+    return true if current_user.id == (sender_id || recipient_id)
     false
   end
 

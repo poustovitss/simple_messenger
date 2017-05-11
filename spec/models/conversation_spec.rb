@@ -29,6 +29,7 @@ RSpec.describe Conversation, type: :model do
     before do
       @user = FactoryGirl.create(:user)
       @user1 = FactoryGirl.create(:user)
+      @user2 = FactoryGirl.create(:user)
       @conversation = FactoryGirl.create(:conversation, sender_id: @user.id,
                                                        recipient_id: @user1.id)
     end
@@ -37,8 +38,13 @@ RSpec.describe Conversation, type: :model do
       expect(@conversation.owner(@user)).to eq(@user1)
     end
 
-    it 'checks for conversation owner' do
-      expect(@conversation.owner?(@user)).to be true
+    context 'conversation owner' do
+      it 'is owner' do
+        expect(@conversation.owner?(@user)).to be true
+      end
+      it 'isn\'t owner' do
+        expect(@conversation.owner?(@user2)).to be false
+      end
     end
   end
 end
