@@ -4,6 +4,6 @@
       li
         i.fa.fa-comments-o
         |  Mailbox
-    - @messages.each do |message|
+    - @messages.find_each do |message|
       a.list-group-item href="#{conversation_path(message.conversation_id)}"
         = message.owner_name
