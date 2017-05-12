@@ -1,6 +1,6 @@
 class User < ApplicationRecord
   scope :created, -> { order('created_at asc') }
-  scope :active, -> { where(active: true) }
+  scope :active,  -> { where(active: true) }
 
   enum role: %i[user admin]
 

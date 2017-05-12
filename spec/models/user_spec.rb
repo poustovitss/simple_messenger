@@ -43,14 +43,24 @@ RSpec.describe User, type: :model do
   end
 
   describe 'instance methods' do
-    it 'checks if user is an admin' do
-      user = FactoryGirl.create(:user, :admin)
-      expect(user.admin?).to be_truthy
+    it 'checks if user is active' do
+      user = FactoryGirl.create(:user, active: false)
+      expect(user.active_for_authentication?).to be false
+    end
+
+    it 'sets default role to user' do
+      user = FactoryGirl.create(:user)
+      expect(user.role).to eq 'user'
     end
 
     it 'returns user\'s formatted full name' do
       user = FactoryGirl.create(:user, first_name: 'first', last_name: 'last')
       expect(user.name).to eq('First Last')
+    end
+
+    it 'checks if user is an admin' do
+      user = FactoryGirl.create(:user, :admin)
+      expect(user.admin?).to be_truthy
     end
 
     it 'checks if user is current user' do
@@ -66,6 +76,21 @@ RSpec.describe User, type: :model do
       FactoryGirl.create(:conversation, sender_id: user2.id, recipient_id: 100)
 
       expect(user1.conversations).to match_array([conversation])
+    end
+
+    it 'shows unread messages' do
+      user = FactoryGirl.create(:user)
+      conversation = FactoryGirl.create(:conversation)
+      @message1 = FactoryGirl.create(:message,
+                                     conversation: conversation,
+                                     user_id: user.id,
+                                     to: user.id)
+      @message2 = FactoryGirl.create(:message,
+                                     conversation: conversation,
+                                     user_id: user.id,
+                                     to: user.id)
+
+      expect(user.new_messages).to eq([@message1, @message2])
     end
   end
 end
