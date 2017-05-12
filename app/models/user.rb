@@ -36,6 +36,6 @@ class User < ApplicationRecord
   end
 
   def new_messages
-    Message.to(id).not_read
+    Message.to(id).unread
   end
 end

@@ -1,6 +1,36 @@
 require 'rails_helper'
 
 RSpec.describe Message, type: :model do
+  describe 'scopes' do
+    let(:user) { FactoryGirl.create(:user) }
+    let(:recipient) { FactoryGirl.create(:user) }
+    let(:conversation) { FactoryGirl.create(:conversation) }
+    before do
+      @message1 = FactoryGirl.create(:message,
+                                     conversation: conversation,
+                                     user_id: user.id,
+                                     to: recipient.id,
+                                     created_at: Time.zone.now)
+      @message2 = FactoryGirl.create(:message,
+                                     conversation: conversation,
+                                     user_id: user.id,
+                                     to: recipient.id,
+                                     created_at: Time.zone.now + 1)
+    end
+
+    it 'messages for display' do
+      expect(Message.for_display).to eq([@message1, @message2])
+    end
+
+    it 'shows messages sent to specific user' do
+      expect(Message.to(recipient)).to eq([@message1, @message2])
+    end
+
+    it 'shows unread messages' do
+      expect(Message.unread).to eq([@message1, @message2])
+    end
+  end
+
   describe 'associations' do
     it { should belong_to(:user) }
     it { should belong_to(:conversation) }

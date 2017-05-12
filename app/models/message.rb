@@ -6,8 +6,8 @@ class Message < ApplicationRecord
   validates :body, length: { minimum: 1, maximum: 1000 }
 
   scope :for_display, -> { order(:created_at).last(20) }
-  scope :to, -> (id) { where(to: id) }
-  scope :not_read, -> { where(read: false) }
+  scope :to,          -> (id) { where(to: id) }
+  scope :unread,      -> { where(read: false) }
 
   def message_time
     created_at.strftime('%H:%M:%S %B %d, %Y')
