@@ -27,7 +27,8 @@ class Conversation < ApplicationRecord
     false
   end
 
-  def unread_messages_for_user(user)
+  def mark_messages_as_read(user)
     Message.where(to: user, conversation_id: id, read: false)
+           .update_all(read: true)
   end
 end
