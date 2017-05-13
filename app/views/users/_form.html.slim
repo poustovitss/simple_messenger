@@ -2,6 +2,7 @@
   .row
     .col-lg-4.col-lg-offset-4
       = render 'general/errors', model: @user
+
       .panel.panel-default
         .panel-heading
           h3.panel-title
@@ -25,6 +26,7 @@
               label Password confirmation
               = f.password_field :password_confirmation, class: 'form-control'
 
-          .text-right
-            = f.submit 'Save', class: 'btn btn-primary'
-      = link_to 'Back', users_path, class: 'btn btn-default'
+            .pull-right
+              = f.submit 'Save', class: 'btn btn-primary'
+            .pull-left
+              = link_to 'Back', users_path, class: 'btn btn-default'

@@ -9,11 +9,12 @@ module UsersHelper
   end
 
   def delete_user_button(user)
-    link_to 'delete',
-            user,
+    link_to(user,
             method: :delete,
             data: { confirm: 'Are you sure?' },
-            class: "btn btn-xs btn-danger #{disable_button(user)}"
+            class: "btn btn-xs btn-danger #{disable_button(user)}") do
+      '<i class="fa fa-trash" aria-hidden="true"></i>'.html_safe
+    end
   end
 
   def toggle_flash_message(user)
@@ -30,5 +31,19 @@ module UsersHelper
 
   def disable_button(user)
     'disabled' if user.current_user?
+  end
+
+  def edit_user_button(user)
+    link_to(edit_user_path(user),
+            class: 'btn btn-xs btn-warning') do
+      '<i class="fa fa-pencil" aria-hidden="true"></i>'.html_safe
+    end
+  end
+
+  def change_user_role_button(user)
+    link_to(role_user_path(user),
+            class: 'btn btn-xs btn-primary') do
+      '<i class="fa fa-lock" aria-hidden="true"></i>'.html_safe
+    end
   end
 end

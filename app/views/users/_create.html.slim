@@ -1,14 +1,7 @@
 = form_for(@user, url: create_user_path) do |f|
   .row
     .col-lg-4.col-lg-offset-4
-      - if @user.errors.any?
-        #error_explanation
-          h2
-            = pluralize(@user.errors.count, "error")
-            | prohibited this user from being saved:
-          ul
-            - @user.errors.full_messages.each do |msg|
-              li= msg
+      = render 'general/errors', model: @user
 
       .panel.panel-default
         .panel-heading
@@ -36,6 +29,7 @@
               label Password confirmation
               = f.password_field :password_confirmation, class: 'form-control'
 
-          .text-right
-            = f.submit 'Save', class: 'btn btn-primary'
-      = link_to 'Back', users_path, class: 'btn btn-default'
+            .pull-left
+              = link_to 'Back', users_path, class: 'btn btn-default'
+            .pull-right
+              = f.submit 'Save', class: 'btn btn-primary'

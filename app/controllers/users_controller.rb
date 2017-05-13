@@ -1,8 +1,9 @@
 class UsersController < ApplicationController
   include UsersHelper
+  respond_to :html
 
   before_action :admin_only, except: %i[edit update]
-  before_action :set_user, only: %i[edit update destroy role toggle_user_state]
+  before_action :set_user, only: %i[edit update destroy role toggle_user_state role_update]
   before_action :check_current_user, only: %i[edit update]
   around_action :set_current_user, only: %i[index destroy]
 
@@ -18,29 +19,13 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-
-    respond_to do |format|
-      if @user.save
-        format.html { redirect_to users_path, notice: 'User was successfully created.' }
-        format.json { render json: @user, status: :created, location: @user }
-      else
-        format.html { render action: :new, notice: 'Error! User was not created.' }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
-    end
+    flash[:notice] = 'User was created.' if @user.save
+    respond_with(@user, location: users_path)
   end
 
   def update
-    respond_to do |format|
-      if @user.update(user_params)
-        #return check_current_user
-        format.html { redirect_to users_path, notice: 'User was successfully updated.' }
-        format.json { render json: @user.to_json }
-      else
-        format.html { render :edit, alert: 'Error! User was not updated.' }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
-    end
+    flash[:notice] = 'User was updated.' if @user.update(user_params)
+    respond_with(@user, location: users_path)
   end
 
   def destroy
@@ -56,24 +41,18 @@ class UsersController < ApplicationController
   def role; end
 
   def role_update
-    respond_to do |format|
-      if @user.update(user_role_params)
-        format.html { redirect_to users_path, notice: 'User role was successfully updated.' }
-        format.json { render json: @user.to_json }
-      else
-        format.html { render :edit, notice: 'error!' }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
-    end
+    flash[:notice] = 'User\'s role was updated.' if @user.update(role_params)
+    respond_with(@user, location: users_path)
   end
 
   def toggle_user_state
     if current_user == @user
-      redirect_to users_path, alert: 'You cannot disable yourself.'
+      flash[:alert] = 'You cannot disable yourself.'
     else
       @user.toggle!(:active)
-      redirect_to users_path, notice: toggle_flash_message(@user)
+      flash[:notice] = toggle_flash_message(@user)
     end
+    redirect_to users_path
   end
 
   private
@@ -94,8 +73,8 @@ class UsersController < ApplicationController
                                  :password_confirmation)
   end
 
-  def user_role_params
-    params.permit(:id, :role)
+  def role_params
+    params.require(:user).permit(:id, :role)
   end
 
   def check_current_user

@@ -8,6 +8,6 @@
   td= time_format(user.current_sign_in_at)
   td= time_format(user.last_sign_in_at)
   td.text-center= toggle_user_state(user)
-  td.text-center= link_to 'edit', edit_user_path(user), class: 'btn btn-xs btn-warning'
-  td.text-center= link_to 'role', role_user_path(user), class: 'btn btn-xs btn-info'
+  td.text-center= edit_user_button(user)
+  td.text-center= change_user_role_button(user)
   td.text-center= delete_user_button(user)

@@ -4,10 +4,10 @@ Rails.application.routes.draw do
 
   root 'conversations#index'
 
-  resources :users, except: :create do
+  resources :users, except: %i[create, show] do
     member do
-      get 'role',              to: 'users#role'
-      post 'users/:id/role',   to: 'users#role_update'
+      get 'role', to: 'users#role'
+      post 'role', to: 'users#role_update'
       post 'toggle_user_state', to: 'users#toggle_user_state'
     end
   end

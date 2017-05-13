@@ -8,22 +8,39 @@ describe UsersController do
     end
 
     describe 'GET index' do
-      it 'renders :index template' do
+      before do
         get :index
+      end
+
+      it 'renders :index template' do
         expect(response).to render_template(:index)
+      end
+
+      it 'response with 200' do
         expect(response.status).to eq(200)
+      end
+
+      it 'assigns @users' do
+        user1 = FactoryGirl.create(:user)
+        expect(assigns(:users)).to match_array([admin, user1])
       end
     end
 
     describe 'GET edit' do
       let(:user) { FactoryGirl.create(:user, :admin, email: 'user@user.com') }
-      it 'renders :edit template' do
+      before do
         get :edit, params: { id: user }
+      end
+
+      it 'renders :edit template' do
         expect(response).to render_template(:edit)
       end
 
+      it 'response with 200 status' do
+        expect(response.status).to eq 200
+      end
+
       it 'assigns the requested user to template' do
-        get :edit, params: { id: user }
         expect(assigns(:user)).to eq(user)
       end
     end
@@ -47,7 +64,7 @@ describe UsersController do
 
         it 'shows flash message' do
           put :update, params: { id: user, user: valid_data }
-          expect(flash[:notice]).to eq('User was successfully updated.')
+          expect(flash[:notice]).to eq('User was updated.')
         end
       end
 
@@ -68,13 +85,15 @@ describe UsersController do
     end
 
     describe 'GET new' do
-      it 'renders :new template' do
+      before do
         get :new
+      end
+
+      it 'renders :new template' do
         expect(response).to render_template(:new)
       end
 
-      it 'assigns new User to @user' do
-        get :new
+      it 'assigns new user to @user' do
         expect(assigns(:user)).to be_a_new(User)
       end
     end
@@ -96,7 +115,7 @@ describe UsersController do
 
         it 'shows flash message' do
           post :create, params: { user: valid_data }
-          expect(flash[:notice]).to eq('User was successfully created.')
+          expect(flash[:notice]).to eq('User was created.')
         end
       end
 
@@ -144,6 +163,103 @@ describe UsersController do
         it 'does not deletes himself from database' do
           delete :destroy, params: { id: admin }
           expect(User.exists?(admin.id)).to be_truthy
+        end
+      end
+    end
+
+    describe 'GET role' do
+      before do
+        get :role, params: { id: admin }
+      end
+
+      it 'renders :role template' do
+        expect(response).to render_template(:role)
+      end
+
+      it 'assigns new user to @user' do
+        expect(assigns(:user)).to eq(admin)
+      end
+    end
+
+    describe 'PUT role' do
+      let(:user) { FactoryGirl.create(:user, role: :user, email: 'user@user.com') }
+      let(:valid_data) { FactoryGirl.attributes_for(:user, role: 'admin') }
+      before do
+        put :role_update, params: { id: user, user: valid_data }
+      end
+
+      it 'redirects to users index page' do
+        expect(response).to redirect_to(users_path)
+      end
+
+      it 'changes user role in database' do
+        user.reload
+        expect(user.role).to eq('admin')
+      end
+
+      it 'shows flash message' do
+        expect(flash[:notice]).to eq('User\'s role was updated.')
+      end
+    end
+
+    describe 'PUT toggle user state' do
+      context 'of another user' do
+        let(:disable_user) { FactoryGirl.attributes_for(:user, active: false) }
+        let(:enable_user)  { FactoryGirl.attributes_for(:user, active: true) }
+
+        after do
+          expect(response).to redirect_to(users_path)
+        end
+
+        context 'disable user' do
+          let(:user) { FactoryGirl.create(:user) }
+          before do
+            put :toggle_user_state, params: { id: user, user: disable_user }
+          end
+
+          it 'change user status in database' do
+            user.reload
+            expect(user.active).to be false
+          end
+
+          it 'shows flash message' do
+            expect(flash[:notice]).to eq('User was disabled.')
+          end
+        end
+
+        context 'enable user' do
+          let(:user) { FactoryGirl.create(:user, active: false) }
+          before do
+            put :toggle_user_state, params: { id: user, user: enable_user }
+          end
+
+          it 'changes user status' do
+            user.reload
+            expect(user.active).to be true
+          end
+
+          it 'shows flash message' do
+            expect(flash[:notice]).to eq('User was enabled.')
+          end
+        end
+      end
+
+      context 'of himself' do
+        before do
+          put :toggle_user_state, params: { id: admin, user: { active: false } }
+        end
+
+        it 'redirects to users index page' do
+          expect(response).to redirect_to(users_path)
+        end
+
+        it 'doesnt change user status in database' do
+          admin.reload
+          expect(admin.active).to eq true
+        end
+
+        it 'renders error message' do
+          expect(flash[:alert]).to eq('You cannot disable yourself.')
         end
       end
     end

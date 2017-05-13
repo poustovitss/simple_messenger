@@ -3,27 +3,20 @@
 = form_for(@user) do |f|
   .row
     .col-lg-4.col-lg-offset-4
-      - if @user.errors.any?
-        #error_explanation
-          h2
-            = pluralize(@user.errors.count, "error")
-            | prohibited this user from being saved:
-          ul
-            - @user.errors.full_messages.each do |msg|
-              li= msg
+      = render 'general/errors', model: @user
 
       .panel.panel-default
         .panel-heading
           h3.panel-title
             i.fa.fa-plus.fa-fw
-            | User
-            = @user.email
+            | User #{@user.name} (#{@user.email})
         .panel-body
           form role='form'
             .form-group
               label Role
               = f.select :role, User.roles.keys.to_a, {}, { class: 'form-control' }
 
-          .text-right
-            = f.submit 'Save', class: 'btn btn-primary'
-      = link_to 'Back', users_path, class: 'btn btn-default'
+            .pull-left
+              = link_to 'Back', users_path, class: 'btn btn-default'
+            .pull-right
+              = f.submit 'Save', class: 'btn btn-primary'
