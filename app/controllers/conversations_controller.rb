@@ -3,7 +3,7 @@ class ConversationsController < ApplicationController
 
   def index
     params[:q] ||= {}
-    @search = User.active.ransack(params[:q])
+    @search = User.active.without_current_user(current_user).ransack(params[:q])
     @users = @search.result(distinct: true)
                     .paginate(page: params[:users_page], per_page: 15)
     @conversations = current_user.conversations
@@ -35,8 +35,7 @@ class ConversationsController < ApplicationController
 
   def destroy
     return unless @conversation.owner?(current_user)
-    @conversation.messages.delete_all
-    @conversation.delete
+    @conversation.destroy
     redirect_to conversations_path
   end
 

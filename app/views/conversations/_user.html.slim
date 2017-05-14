@@ -1,14 +1,10 @@
-- if @users.any?
-  = render 'conversations/search'
-  - @users.find_each do |user|
-    = form_for @conversation, url: {action: 'create'} do |f|
-      - if user.id != current_user.id
-        li.list-group-item
-          = user.name
-          .pull-right
-            = f.hidden_field :sender_id, value: current_user.id
-            = f.hidden_field :recipient_id, value: user.id
-            = f.submit 'Send message',
-                    class: 'btn btn-xs btn-primary'
-- else
-  p.text-center You are alone :(
+= render 'conversations/search'
+- @users.find_each do |user|
+  = form_for @conversation, url: {action: 'create'} do |f|
+    li.list-group-item
+      = user.name
+      .pull-right
+        = f.hidden_field :sender_id, value: current_user.id
+        = f.hidden_field :recipient_id, value: user.id
+        = f.submit 'Send message',
+                class: 'btn btn-xs btn-primary'

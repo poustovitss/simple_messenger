@@ -1,10 +1,13 @@
 class User < ApplicationRecord
-  scope :created, -> { order('created_at asc') }
-  scope :active,  -> { where(active: true) }
+  before_destroy :delete_conversations
 
   enum role: %i[user admin]
 
   validates :first_name, :last_name, presence: true, length: { in: 3..20 }
+
+  scope :created, -> { order('created_at asc') }
+  scope :active,  -> { where(active: true) }
+  scope :without_current_user, ->(user) { where.not(id: user.id) }
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
@@ -37,5 +40,11 @@ class User < ApplicationRecord
 
   def new_messages
     Message.to(id).unread
+  end
+
+  protected
+
+  def delete_conversations
+    conversations.destroy_all
   end
 end

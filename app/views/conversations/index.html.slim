@@ -5,7 +5,10 @@
         i.fa.fa-comments-o
         |  Mailbox
     #conversations
-      = render @conversations
+      - if current_user.conversations.any?
+        = render @conversations
+      - else
+        p.text-center No conversations yet. Create one!
     .pull-right
       = will_paginate @conversations,
               param_name: 'conversation_page',
@@ -16,7 +19,10 @@
       li
         i.fa.fa-users
         |  Users
-    = render 'conversations/user'
+    - if @users.without_current_user(current_user).any?
+      = render 'conversations/user'
+    - else
+      p.text-center No users :(
     .pull-right
       = will_paginate @users,
               param_name: 'users_page',

@@ -20,9 +20,9 @@ describe ConversationsController do
         expect(response.status).to eq(200)
       end
 
-      it 'assigns only active @users' do
+      it 'assigns only active @users without current user' do
         user1 = FactoryGirl.create(:user)
-        expect(assigns(:users)).to match_array([admin, user1])
+        expect(assigns(:users)).to match_array([user1])
       end
 
       it 'disabled users dont assigns to @users' do

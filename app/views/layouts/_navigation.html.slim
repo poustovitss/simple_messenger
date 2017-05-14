@@ -3,7 +3,7 @@ nav.navbar.navbar-inverse.navbar-fixed-top role="navigation"
     a.navbar-brand href='/' Messenger
   ul.nav.navbar-right.top-nav
     li
-      a href="#{unread_path}"
+      a#unread_messages href="#{unread_path}"
         span<> class="badge alert-success"
           = current_user.new_messages.count.nonzero?
     li.dropdown

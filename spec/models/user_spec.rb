@@ -15,6 +15,11 @@ RSpec.describe User, type: :model do
 
       expect(User.active).to match_array([user1])
     end
+
+    it 'shows users except of current_user' do
+      current_user = FactoryGirl.create(:user)
+      expect(User.without_current_user(current_user)).to match_array([])
+    end
   end
 
   describe 'user roles' do
@@ -35,10 +40,16 @@ RSpec.describe User, type: :model do
   end
 
   describe 'callbacks' do
-    it 'set user role to user after create' do
-      user = FactoryGirl.create(:user)
+    let(:user) { FactoryGirl.create(:user) }
 
+    it 'set user role to user after create' do
       expect(user.role).to eq('user')
+    end
+
+    it 'destroy all conversations before user destroy' do
+      conversation = FactoryGirl.create(:conversation, sender_id: user.id)
+      user.destroy
+      expect(Conversation.count).to eq 0
     end
   end
 
