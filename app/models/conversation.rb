@@ -23,7 +23,7 @@ class Conversation < ApplicationRecord
   end
 
   def owner?(current_user)
-    return true if current_user.id == (sender_id || recipient_id)
+    return true if current_user.id == sender_id || current_user.id == recipient_id
     false
   end
 

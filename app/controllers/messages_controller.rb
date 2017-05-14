@@ -8,7 +8,8 @@ class MessagesController < ApplicationController
       ActionCable.server.broadcast "messages_channel_#{@conversation.id}",
                                    message: render_message(@message, @conversation)
     else
-      redirect_to conversation_path(@conversation), alert: 'Error'
+      redirect_to conversation_path(@conversation),
+                  alert: 'Message length must be from 1 to 1000 symbols'
     end
   end
 
