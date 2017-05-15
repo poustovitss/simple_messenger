@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  after_initialize :set_default_role, if: :new_record?
   before_destroy :delete_conversations
 
   enum role: %i[user admin]
@@ -12,14 +13,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  after_initialize :set_default_role, if: :new_record?
-
   def active_for_authentication?
     super && active
-  end
-
-  def set_default_role
-    self.role ||= :user
   end
 
   def name
@@ -46,5 +41,9 @@ class User < ApplicationRecord
 
   def delete_conversations
     conversations.destroy_all
+  end
+
+  def set_default_role
+    self.role ||= :user
   end
 end
