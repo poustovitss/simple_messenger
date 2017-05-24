@@ -44,6 +44,7 @@ group :development do
   gem 'brakeman',             require: false
   gem 'rubycritic',           require: false
   gem 'rails_best_practices', require: false
+  gem 'simplecov'
 end
 
 group :development, :test do
